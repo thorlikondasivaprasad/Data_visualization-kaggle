@@ -1,0 +1,100 @@
+
+
+	Scatter plots...........
+
+we use scatter plots to highlight the relationship between two continuous variables (like "bmi" and "charges").
+
+To create a simple scatter plot, we use the sns.scatterplot command and specify the values for:
+
+the horizontal x-axis (x=insurance_data['bmi']), and
+the vertical y-axis (y=insurance_data['charges']).
+
+code:
+sns.scatterplot(x=insurance_data['bmi'], y=insurance_data['charges'])
+
+The scatterplot above suggests that body mass index (BMI) and insurance charges are positively correlated, where customers with higher BMI typically also tend to pay more in insurance costs. (This pattern makes sense, since high BMI is typically associated with higher risk of chronic disease.)
+
+To double-check the strength of this relationship, you might like to add a regression line, or the line that best fits the data. We do this by changing the command to sns.regplot.
+
+code:
+sns.regplot(x=insurance_data['bmi'], y=insurance_data['charges'])
+
+Color-coded scatter plots.................
+We can use scatter plots to display the relationships between (not two, but...) three variables! One way of doing this is by color-coding the points.
+
+For instance, to understand how smoking affects the relationship between BMI and insurance costs, we can color-code the points by 'smoker', and plot the other two columns ('bmi', 'charges') on the axes.
+
+code:
+sns.scatterplot(x=insurance_data['bmi'], y=insurance_data['charges'], hue=insurance_data['smoker'])
+
+This scatter plot shows that while nonsmokers to tend to pay slightly more with increasing BMI, smokers pay MUCH more.
+
+To further emphasize this fact, we can use the sns.lmplot command to add two regression lines, corresponding to smokers and nonsmokers. (You'll notice that the regression line for smokers has a much steeper slope, relative to the line for nonsmokers!)
+
+code:
+sns.lmplot(x="bmi", y="charges", hue="smoker", data=insurance_data)
+
+SWARM PLOT:::.................
+ However, we can adapt the design of the scatter plot to feature a categorical variable (like "smoker") on one of the main axes. We'll refer to this plot type as a categorical scatter plot, and we build it with the sns.swarmplot command.
+
+CODE:
+sns.swarmplot(x=insurance_data['smoker'],
+              y=insurance_data['charges'])
+
+
+
+DISTRIBUTIONS....................
+
+We'll work with a dataset of 150 different flowers, or 50 each from three different species of iris (Iris setosa, Iris versicolor, and Iris virginica).
+
+Load and examine the data
+Each row in the dataset corresponds to a different flower. There are four measurements: the sepal length and width, along with the petal length and width. We also keep track of the corresponding species.
+
+Histograms........................
+Say we would like to create a histogram to see how petal length varies in iris flowers. We can do this with the sns.histplot command.
+
+# Histogram 
+sns.histplot(iris_data['Petal Length (cm)'])
+
+
+In the code cell above, we had to supply the command with the column we'd like to plot (in this case, we chose 'Petal Length (cm)').
+
+Density plots..................
+The next type of plot is a kernel density estimate (KDE) plot. In case you're not familiar with KDE plots, you can think of it as a smoothed histogram.
+To make a KDE plot, we use the sns.kdeplot command. Setting shade=True colors the area below the curve (and data= chooses the column we would like to plot).
+
+# KDE plot 
+
+sns.kdeplot(data=iris_data['Petal Length (cm)'], shade=True)
+
+
+2D KDE plots
+We're not restricted to a single column when creating a KDE plot. We can create a two-dimensional (2D) KDE plot with the sns.jointplot command.
+
+In the plot below, the color-coding shows us how likely we are to see different combinations of sepal width and petal length, where darker parts of the figure are more likely.
+
+# 2D KDE plot
+sns.jointplot(x=iris_data['Petal Length (cm)'], y=iris_data['Sepal Width (cm)'], kind="kde")
+
+<seaborn.axisgrid.JointGrid at 0x786187a48f50>
+
+
+Color-coded plots
+For the next part of the tutorial, we'll create plots to understand differences between the species.
+
+We can create three different histograms (one for each species) of petal length by using the sns.histplot command (as above).
+
+data= provides the name of the variable that we used to read in the data
+x= sets the name of column with the data we want to plot
+hue= sets the column we'll use to split the data into different histograms
+
+# Histograms for each species
+
+sns.histplot(data=iris_data, x='Petal Length (cm)', hue='Species')
+
+# Add title
+plt.title("Histogram of Petal Lengths, by Species")
+
+Text(0.5, 1.0, 'Histogram of Petal Lengths, by Species')
+
+
